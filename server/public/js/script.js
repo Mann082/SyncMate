@@ -14,10 +14,11 @@ var leaveRoomBtn = document.getElementById("leave-room-btn");
 var muteFlag = false;
 var hideCameraFlag = false;
 
-navigator.getUserMedia =
-  navigator.getUserMedia ||
+navigator.mediaDevices.getUserMedia =
+  navigator.mediaDevices.getUserMedia ||
   navigator.webkitGetUserMedia ||
   navigator.mozGetUserMedia;
+
 var roomName = roomInput.value;
 var creator = false;
 var userStream;
@@ -31,7 +32,7 @@ var iceServer = {
 };
 
 joinBtn.addEventListener("click", function () {
-  roomName=roomInput.value;
+  roomName = roomInput.value;
   console.log(roomName);
   if (roomName == "") {
     alert("Please enter a room name!");
@@ -69,7 +70,7 @@ leaveRoomBtn.addEventListener("click", function () {
   if (userVideo.srcObject) {
     userVideo.srcObject.getTracks()[0].stop();
     userVideo.srcObject.getTracks()[1].stop();
-  }  
+  }
   if (peerVideo.srcObject) {
     peerVideo.srcObject.getTracks()[0].stop();
     peerVideo.srcObject.getTracks()[1].stop();
@@ -86,10 +87,7 @@ socket.on("created", function () {
   navigator.getUserMedia(
     {
       audio: true,
-      video: {
-        width: 500,
-        height: 500,
-      },
+      video: true,
     },
     function (stream) {
       divBtnGroup.style = "display:flex";
@@ -111,10 +109,7 @@ socket.on("joined", function () {
   navigator.getUserMedia(
     {
       audio: true,
-      video: {
-        width: 500,
-        height: 500,
-      },
+      video: true,
     },
     function (stream) {
       divBtnGroup.style = "display:flex";
