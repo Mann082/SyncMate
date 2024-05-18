@@ -11,7 +11,7 @@ const { SESSION_SECRET } = process.env;
 
 const MongoDBStore = require("connect-mongodb-session")(session);
 
-const MONGODB_URI = "mongodb://127.0.0.1:27017/video-call-app";
+const MONGODB_URI = "mongodb+srv://guptamann108:kTrZe63Dtctb6Rja@cluster0.tnjgtsn.mongodb.net/video-call-app";
 
 const store = new MongoDBStore({
   uri: MONGODB_URI,
