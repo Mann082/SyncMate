@@ -55,7 +55,7 @@ const register = async(req, res)=>{
 
     try {
 
-        var isUser = await User.findOne({name: {$regex: req.body.name} });
+        var isUser = await User.findOne({name: req.body.name });
         if(isUser){
             res.render('register',{ success:false,message: 'This User Name ('+req.body.name+') is already exists!' });
         }
@@ -84,7 +84,7 @@ const loadHome = async(req,res) => {
 
     try{
 
-        res.render('home',{user:req.session.user});
+        res.render('home');
 
     } catch (error) {
         console.log(error.message);

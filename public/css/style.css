@@ -1,9 +1,19 @@
 body {
-    background-image: url(../images/bg.jpg);
+    /* background-image: url(../images/bg.jpg); */
+    background-color: aquamarine;
     background-size: cover;
+    display: block;
+    width: 100%;
+    height: 100%;
+    /* flex-direction: row; */
+    /* align-items: center; */
 }
 
 .main-wrap {
+    position: absolute;
+    left: 50%;
+    top:50%;
+    transform: (-50%,-50%);
     display: flex;
     justify-content: center;
     align-items: flex-end;
