@@ -36,7 +36,10 @@ var iceServer = {
   iceServers: [
     { urls: "stun:stun.services.mozilla.com" },
     { urls: "stun:stun1.l.google.com:19302" },
-  ],
+    { urls: "stun:stun2.l.google.com:19302" },
+    { urls: "stun:stun3.l.google.com:19302" },
+    { urls: "stun:stun4.l.google.com:19302" }
+  ]
 };
 
 console.log(roomName);
@@ -83,23 +86,34 @@ leaveRoomBtn.addEventListener("click", function () {
   }
   window.location.href = "/home"; 
 });
-
 screenShareBtn.addEventListener("click", async function () {
   if (!screenSharing) {
     try {
-      const screenStream = await navigator.mediaDevices.getDisplayMedia({ video: true });
+      const screenStream = await navigator.mediaDevices.getDisplayMedia({
+        video: true,
+        audio: true
+      });
+
       const videoTrack = screenStream.getVideoTracks()[0];
-      videoTrack.onended = () => {
-        stopScreenShare();
-      };
+      const audioTrack = screenStream.getAudioTracks()[0];
+
+      videoTrack.onended = stopScreenShare;
 
       if (rtcPeerConnection) {
-        const sender = rtcPeerConnection.getSenders().find(s => s.track.kind === videoTrack.kind);
-        sender.replaceTrack(videoTrack);
+        // Replace video track
+        const videoSender = rtcPeerConnection.getSenders().find(s => s.track.kind === videoTrack.kind);
+        videoSender.replaceTrack(videoTrack);
+
+        // Replace audio track
+        if (audioTrack) {
+          const audioSender = rtcPeerConnection.getSenders().find(s => s.track.kind === audioTrack.kind);
+          audioSender.replaceTrack(audioTrack);
+        }
       }
 
       screenSharing = true;
       screenShareBtn.textContent = "Stop Sharing";
+
     } catch (error) {
       console.error("Error sharing screen: ", error);
     }
@@ -110,9 +124,16 @@ screenShareBtn.addEventListener("click", async function () {
 
 function stopScreenShare() {
   const videoTrack = userStream.getVideoTracks()[0];
+  const audioTrack = userStream.getAudioTracks()[0];
+
   if (rtcPeerConnection) {
-    const sender = rtcPeerConnection.getSenders().find(s => s.track.kind === videoTrack.kind);
-    sender.replaceTrack(videoTrack);
+    // Replace video track
+    const videoSender = rtcPeerConnection.getSenders().find(s => s.track.kind === videoTrack.kind);
+    videoSender.replaceTrack(videoTrack);
+
+    // Replace audio track
+    const audioSender = rtcPeerConnection.getSenders().find(s => s.track.kind === audioTrack.kind);
+    audioSender.replaceTrack(audioTrack);
   }
 
   screenSharing = false;
