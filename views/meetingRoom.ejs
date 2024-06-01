@@ -4,6 +4,8 @@
     <meta charset="utf-8" />
     <title>Meeting Room : <%= code %></title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.7.3/socket.io.js"></script>
+    
+    <link rel="icon" type="image/x-icon" href="https://img.icons8.com/?size=100&id=YOhdE1LDn243&format=png&color=000000">
     <style>
       body {
         font-family: Arial, sans-serif;
@@ -13,6 +15,10 @@
       video {
         background: black;
         border: 1px solid gray;
+      }
+
+      #screen{
+        display: none;
       }
 
       #video-chat-form {
@@ -109,6 +115,7 @@
     <div id="video-chat-rooms">
       <video id="user-video" autoplay muted></video>
       <video id="peer-video" autoplay></video>
+      <video id="screen" autoplay muted></video>
     </div>
     <div class="btn-group" id="btn-group">
       <button id="mute-btn">Mute</button>
